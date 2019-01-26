@@ -8,3 +8,13 @@ body {
   display: grid;
   grid-template-columns: repeat(100, 50px);
 }
+
+.cell {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+.cell.active {
+  background-color: white;
+}

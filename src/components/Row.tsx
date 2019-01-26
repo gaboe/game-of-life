@@ -1,11 +1,12 @@
 import React from "react";
+import { Cell } from "./Cell";
 
 type Props = { cells: GridCell[] };
 
 const Row = (props: Props) => (
   <div>
     {props.cells.map(e => (
-      <div key={e.y}>{`${e.x}-${e.y}`}</div>
+      <Cell key={e.y} cell={e} />
     ))}
   </div>
 );
