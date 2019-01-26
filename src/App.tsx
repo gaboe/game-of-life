@@ -1,19 +1,19 @@
-import * as React from 'react';
-import './App.css';
+import * as React from "react";
+import { Grid } from "./components/Grid";
 
-import logo from './logo.svg';
+const getIndexedArray = (l: number) => Array.from(Array(l), (_, x) => x);
 
+const getCells = () =>
+  getIndexedArray(30).map(x =>
+    getIndexedArray(30).map(y => {
+      return { active: true, x, y } as GridCell;
+    })
+  );
 class App extends React.Component {
   public render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <Grid cells={getCells()} />
       </div>
     );
   }
