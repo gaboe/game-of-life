@@ -79,7 +79,7 @@ class World extends React.Component<Props, State> {
     }
     const cells = this.state.cells;
 
-    const newCell = cells.map((row, rowIndex) => {
+    const newCells = cells.map((row, rowIndex) => {
       return row.map((col, colIndex) => {
         const count = getCount(cells, row, rowIndex, colIndex);
         return { ...col, ...{ active: getNewState(col, count) } };
@@ -88,7 +88,7 @@ class World extends React.Component<Props, State> {
 
     window.setTimeout(this.run, 400);
 
-    this.setState({ cells: newCell });
+    this.setState({ cells: newCells });
   };
 
   public render() {

@@ -4,6 +4,13 @@ body {
   font-family: sans-serif;
 }
 
+.game {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: repeat(100, 10px);
