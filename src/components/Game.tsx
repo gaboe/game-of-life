@@ -9,7 +9,10 @@ class Game extends React.Component<{}, State> {
   public render() {
     return (
       <div className="game">
-        <World isRunning={this.state.isRunning} />
+        <World
+          isRunning={this.state.isRunning}
+          variance={this.state.variance}
+        />
         <div>
           <Typography>Active variance: {this.state.variance}</Typography>
           <Slider
@@ -18,7 +21,9 @@ class Game extends React.Component<{}, State> {
             max={1}
             value={this.state.variance}
             aria-labelledby="label"
-            onChange={(_, value) => this.setState({ variance: value })}
+            onChange={(_, value) =>
+              this.setState({ variance: value, isRunning: false })
+            }
           />
           <Button
             style={{ marginTop: 10 }}

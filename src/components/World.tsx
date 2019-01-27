@@ -1,16 +1,22 @@
 import { Grid } from "./Grid";
 
+import { Typography } from "@material-ui/core";
 import * as React from "react";
-type State = { cells: GridCell[][] };
-type Props = { isRunning: boolean };
+type State = {
+  isRunning: boolean;
+  variance: number;
+  cells: GridCell[][];
+  iteration: number;
+};
+type Props = { isRunning: boolean; variance: number };
 
 const getIndexedArray = (l: number) => Array.from(Array(l), (_, x) => x);
 
 const dimension = 80;
-const getCells = () =>
+const getCells = (variance: number) =>
   getIndexedArray(dimension).map(y =>
     getIndexedArray(dimension).map(x => {
-      return { active: Math.random() >= 0.4, x, y } as GridCell;
+      return { active: Math.random() >= variance, x, y } as GridCell;
     })
   );
 
@@ -64,17 +70,34 @@ const getNewState = (cell: GridCell, count: number) => {
 };
 
 class World extends React.Component<Props, State> {
-  public state = { cells: getCells() };
+  public state = {
+    cells: getCells(this.props.variance),
+    iteration: 0,
+    isRunning: false,
+    variance: this.props.variance
+  };
 
   public componentWillReceiveProps(nextProps: Readonly<Props>) {
     console.log("Word received props");
-    if (nextProps.isRunning) {
+    if (nextProps.variance !== this.state.variance) {
+      this.setState({
+        cells: getCells(nextProps.variance),
+        variance: nextProps.variance
+      });
+      return;
+    }
+    if (nextProps.isRunning && !this.state.isRunning) {
+      this.setState({
+        isRunning: true,
+        iteration: 0
+      });
       window.setTimeout(this.run, 200);
     }
   }
 
   public run = () => {
     if (!this.props.isRunning) {
+      this.setState({ isRunning: false });
       return;
     }
     const cells = this.state.cells;
@@ -88,11 +111,17 @@ class World extends React.Component<Props, State> {
 
     window.setTimeout(this.run, 400);
 
-    this.setState({ cells: newCells });
+    this.setState({ cells: newCells, iteration: this.state.iteration + 1 });
   };
 
   public render() {
-    return <Grid cells={this.state.cells} />;
+    return (
+      <>
+        <Typography>Iteration: {this.state.iteration}</Typography>
+
+        <Grid cells={this.state.cells} />
+      </>
+    );
   }
 }
 
