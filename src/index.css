@@ -10,7 +10,7 @@ body {
 }
 
 .cell {
-  background-color: black;
+  background-color: white;
   color: white;
   border: 0px solid white;
   width: 20px;
@@ -18,5 +18,5 @@ body {
 }
 
 .cell.active {
-  background-color: white;
+  background-color: black;
 }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Row } from "./Row";
-
 type Props = {
   cells: GridCell[][];
 };
@@ -8,9 +7,12 @@ type Props = {
 const Grid = (props: Props) => {
   return (
     <div className="wrapper">
-      {props.cells.map((x, i) => (
-        <Row key={i} cells={x} />
-      ))}
+      {props.cells
+        .concat()
+        .sort((a, b) => b[0].y - a[0].y)
+        .map((_, i) => (
+          <Row key={i} cells={props.cells.map(e => e[i])} />
+        ))}
     </div>
   );
 };

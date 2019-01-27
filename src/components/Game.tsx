@@ -3,8 +3,8 @@ import { Grid } from "./Grid";
 const getIndexedArray = (l: number) => Array.from(Array(l), (_, x) => x);
 
 const getCells = () =>
-  getIndexedArray(4).map(x =>
-    getIndexedArray(4).map(y => {
+  getIndexedArray(4).map(y =>
+    getIndexedArray(4).map(x => {
       return { active: Math.random() >= 0.5, x, y } as GridCell;
     })
   );
@@ -20,18 +20,20 @@ class Game extends React.Component<{}, State> {
 
     const newCell = cells.map((row, rowIndex) => {
       return row.map((col, colIndex) => {
-        const getTopCellsCount = () => {
-          const upperRow = cells[rowIndex + 1];
-          const onTop = CTI(upperRow[colIndex]);
-          const onTopLeft = colIndex > 0 ? CTI(upperRow[colIndex - 1]) : 0;
-          const onTopRight =
-            cells.length - 1 > colIndex ? CTI(upperRow[colIndex + 1]) : 0;
+        const getLowerCellsCount = () => {
+          if (row.length - 1 <= rowIndex) {
+            return 0;
+          }
+          const lowerRow = cells[rowIndex + 1];
+          const onBottom = CTI(lowerRow[colIndex]);
+          const onBottomLeft = colIndex > 0 ? CTI(lowerRow[colIndex - 1]) : 0;
+          const onBottomRight =
+            cells.length - 1 > colIndex ? CTI(lowerRow[colIndex + 1]) : 0;
 
-          return onTop + onTopLeft + onTopRight;
+          return onBottom + onBottomLeft + onBottomRight;
         };
-        const topN =
-          rowIndex > 1 && row.length - 1 > rowIndex ? getTopCellsCount() : 0;
-        console.log(col.x, col.y, topN);
+        const lowerCount = getLowerCellsCount();
+        console.log(`x: `, col.x, "y:", col.y, " = ", lowerCount);
         return col;
       });
     });
